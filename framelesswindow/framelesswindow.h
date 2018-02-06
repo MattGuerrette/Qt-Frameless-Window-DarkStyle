@@ -21,7 +21,7 @@ class FramelessWindow: public QWidget, private Ui::FramelessWindow
   Q_OBJECT
 
 public:
-  explicit FramelessWindow(QWidget *parent = 0);
+  explicit FramelessWindow(bool bDisableEffect = false, QWidget *parent = 0);
   void setContent(QWidget *w);
 
 private:
@@ -43,6 +43,7 @@ protected:
 
 protected:
   QHBoxLayout contentLayout;
+  bool        disableEffects;
 };
 
 #endif // FRAMELESSWINDOW_H

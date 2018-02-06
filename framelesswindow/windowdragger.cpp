@@ -18,6 +18,7 @@
 WindowDragger::WindowDragger(QWidget *parent): QWidget(parent)
 {
   mousePressed = false;
+    setMouseTracking(true);
 }
 
 void WindowDragger::mousePressEvent(QMouseEvent *event)
@@ -31,6 +32,11 @@ void WindowDragger::mousePressEvent(QMouseEvent *event)
 
   if (parent)
     wndPos = parent->pos();
+
+  m_nMouseClick_X_Coordinate = event->x();
+  m_nMouseClick_Y_Coordinate = event->y();
+
+  QWidget::mousePressEvent(event);
 }
 
 void WindowDragger::mouseMoveEvent(QMouseEvent *event)
@@ -39,8 +45,12 @@ void WindowDragger::mouseMoveEvent(QMouseEvent *event)
   if (parent)
     parent = parent->parentWidget();
 
-  if (parent && mousePressed)
-    parent->move(wndPos + (event->globalPos() - mousePos));
+  if (parent && mousePressed) {
+    parent->move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+      //parent->move(wndPos + (event->globalPos() - mousePos));
+  }
+
+  QWidget::mouseMoveEvent(event);
 }
 
 void WindowDragger::mouseReleaseEvent(QMouseEvent *event)
@@ -52,10 +62,12 @@ void WindowDragger::mouseReleaseEvent(QMouseEvent *event)
 void WindowDragger::paintEvent(QPaintEvent *event)
 {
   Q_UNUSED(event);
-  QStyleOption styleOption;
-  styleOption.init(this);
-  QPainter painter(this);
-  style()->drawPrimitive(QStyle::PE_Widget, &styleOption, &painter, this);
+
+  QWidget::paintEvent(event);
+//  QStyleOption styleOption;
+//  styleOption.init(this);
+//  QPainter painter(this);
+//  style()->drawPrimitive(QStyle::PE_Widget, &styleOption, &painter, this);
 }
 
 void WindowDragger::mouseDoubleClickEvent(QMouseEvent *event)

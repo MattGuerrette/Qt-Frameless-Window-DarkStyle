@@ -38,6 +38,8 @@ protected:
   bool   mousePressed;
   QPoint mousePos;
   QPoint wndPos;
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
 };
 
 #endif // WINDOWDRAGGER_H
